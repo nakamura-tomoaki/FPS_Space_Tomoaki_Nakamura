@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityStandardAssets.CrossPlatformInput;
 using UnityStandardAssets.Utility;
 using Random = UnityEngine.Random;
+using FPS_Controller = UnityStandardAssets.Characters.FirstPerson.FirstPersonController;
 
 namespace UnityStandardAssets.Characters.FirstPerson
 {
@@ -11,7 +12,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
     public class FirstPersonController : MonoBehaviour
     {
         [SerializeField] private bool m_IsWalking;
-        [SerializeField] public float m_WalkSpeed;
+        [SerializeField] private float m_WalkSpeed;
         [SerializeField] private float m_RunSpeed;
         [SerializeField] [Range(0f, 1f)] private float m_RunstepLenghten;
         [SerializeField] private float m_JumpSpeed;
@@ -42,6 +43,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool m_Jumping;
         private AudioSource m_AudioSource;
 
+		//for FPS Space
+		Animator anim;
+		string crunch_param = "IsCrunching";
+		GameObject character;
+		public float crunching_walk_speed = 2.0f;
+		float default_walk_speed,default_run_speed;
+
         // Use this for initialization
         private void Start()
         {
@@ -55,12 +63,30 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Jumping = false;
             m_AudioSource = GetComponent<AudioSource>();
 			m_MouseLook.Init(transform , m_Camera.transform);
+
+			character = transform.FindChild ("Character").gameObject;
+			if(character != null){
+				anim = character.GetComponent<Animator> ();
+			}
+			default_walk_speed = m_WalkSpeed;
+			default_run_speed = m_RunSpeed;
         }
 
 
         // Update is called once per frame
         private void Update()
         {
+			if (Input.GetKeyDown (KeyCode.C)) {
+				anim.SetBool (crunch_param, true);
+				m_WalkSpeed = crunching_walk_speed;
+				m_RunSpeed = crunching_walk_speed;
+			}
+			if(Input.GetKeyUp(KeyCode.C)){
+				anim.SetBool (crunch_param, false);
+				m_WalkSpeed = default_walk_speed;
+				m_RunSpeed = default_run_speed;
+			}
+
             RotateView();
             // the jump state needs to read here to make sure it is not missed
             if (!m_Jump)
