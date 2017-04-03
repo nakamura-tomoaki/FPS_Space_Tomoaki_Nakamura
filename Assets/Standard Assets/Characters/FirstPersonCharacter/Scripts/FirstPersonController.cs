@@ -47,7 +47,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 		Animator anim;
 		string crunch_param = "IsCrunching";
 		GameObject character;
-		public float crunching_walk_speed = 2.0f;
+		[SerializeField] float crunching_walk_speed = 2.0f;
 		float default_walk_speed,default_run_speed;
 
         // Use this for initialization
