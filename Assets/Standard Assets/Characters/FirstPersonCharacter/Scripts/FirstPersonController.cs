@@ -76,12 +76,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
         // Update is called once per frame
         private void Update()
         {
-			if (Input.GetKeyDown (KeyCode.C)) {
+			if (Input.GetKey (KeyCode.C)) {
 				anim.SetBool (crunch_param, true);
-				m_WalkSpeed = crunching_walk_speed;
-				m_RunSpeed = crunching_walk_speed;
-			}
-			if(Input.GetKeyUp(KeyCode.C)){
+				m_WalkSpeed = m_RunSpeed = crunching_walk_speed;
+			}else{
 				anim.SetBool (crunch_param, false);
 				m_WalkSpeed = default_walk_speed;
 				m_RunSpeed = default_run_speed;
