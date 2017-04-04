@@ -28,6 +28,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip[] m_FootstepSounds;    // an array of footstep sounds that will be randomly selected from.
         [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
+		[SerializeField] float crunching_walk_speed = 2.0f;
 
         private Camera m_Camera;
         private bool m_Jump;
@@ -42,15 +43,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private float m_NextStep;
         private bool m_Jumping;
         private AudioSource m_AudioSource;
-
-		//for FPS Space
 		Animator anim;
 		string crunch_param = "IsCrunching";
 		GameObject character;
-		[SerializeField] float crunching_walk_speed = 2.0f;
 		float default_walk_speed,default_run_speed;
 
-        // Use this for initialization
         private void Start()
         {
             m_CharacterController = GetComponent<CharacterController>();
@@ -63,7 +60,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Jumping = false;
             m_AudioSource = GetComponent<AudioSource>();
 			m_MouseLook.Init(transform , m_Camera.transform);
-
 			character = transform.FindChild ("Character").gameObject;
 			if(character != null){
 				anim = character.GetComponent<Animator> ();
@@ -71,7 +67,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 			default_walk_speed = m_WalkSpeed;
 			default_run_speed = m_RunSpeed;
         }
-
 
         // Update is called once per frame
         private void Update()
@@ -84,7 +79,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 				m_WalkSpeed = default_walk_speed;
 				m_RunSpeed = default_run_speed;
 			}
-
             RotateView();
             // the jump state needs to read here to make sure it is not missed
             if (!m_Jump)
