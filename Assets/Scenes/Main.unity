@@ -33211,11 +33211,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b788412d088bb6049bbc793aa283b6d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: 150
+  bullet: 10
   bullet_box: 150
+  bullet_max: 30
   cool_time: 0.2
   Character: {fileID: 1890605011}
   fire_sound: {fileID: 8300000, guid: 8602b7d5cd15c1943a50aa53f171c8cf, type: 3}
+  reload_sound: {fileID: 8300000, guid: 3c5c1d4d7b9307c458890a4beb12e4ae, type: 3}
   fire_effect: {fileID: 1432693973558164, guid: 8b82f4ae5ec57804f87de73486a067c4,
     type: 2}
 --- !u!120 &2104286601
