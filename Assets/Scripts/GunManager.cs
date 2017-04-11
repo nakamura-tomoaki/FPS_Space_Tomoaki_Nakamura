@@ -47,7 +47,7 @@ public class GunManager : MonoBehaviour {
 		RaycastHit hit;
 		if (Physics.Raycast (ray, out hit)) {
 			line.SetPosition (1, hit.point);
-			GameObject fire_effect_instance_hit = Instantiate(fire_effect,hit.point,Quaternion.identity);
+			GameObject fire_effect_instance_hit = Instantiate(fire_effect,hit.point - transform.forward * 0.2f,Quaternion.identity);
 			Destroy (fire_effect_instance_hit, 1.0f);
 		} else {
 			line.SetPosition (1, transform.position + transform.forward * 100f);
