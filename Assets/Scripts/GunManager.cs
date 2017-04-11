@@ -7,13 +7,15 @@ public class GunManager : MonoBehaviour {
 	[SerializeField] int bullet = 30;
 	[SerializeField] int bullet_box = 150;
 	[SerializeField] float cool_time = 0.2f;
+	[SerializeField] GameObject Character;
+	[SerializeField] AudioClip fire_sound;
+	float down_length = 1.2f; 
 	float timer = 0.0f;
-	GameObject fire_effect;
+	[SerializeField] GameObject fire_effect;
 	AudioSource audioSource;
 	LineRenderer line;
 
 	void Start () {
-		fire_effect = Resources.Load<GameObject> ("Fire_effect");
 		audioSource = GetComponent<AudioSource> ();
 		line = GetComponent<LineRenderer> ();
 	}
@@ -29,22 +31,30 @@ public class GunManager : MonoBehaviour {
 	}
 
 	void Fire(){
-		print("Fire!!");
 		bullet--;
 		timer = 0f;
-		GameObject fire_effect_instance = Instantiate(fire_effect,transform.position,transform.rotation);
-		Destroy (fire_effect_instance, 1.0f);
-		audioSource.Play ();
-		line.enabled = true;
-		line.SetPosition (0, transform.position);
-		Ray ray = new Ray (transform.position, transform.forward);
+		audioSource.PlayOneShot (fire_sound);
+		GameObject fire_effect_instance = Instantiate(fire_effect,transform);
+		fire_effect_instance.transform.localPosition = Vector3.zero;
+		Vector3 fire_point;
+		if (Character.GetComponent<Animator> ().GetBool ("IsCrunching")) {
+			fire_point = transform.position - new Vector3(0,down_length,0);
+		}else{
+			fire_point = transform.position;
+		}
+		line.SetPosition (0,fire_point);
+		Ray ray = new Ray (fire_point, transform.forward);
 		RaycastHit hit;
 		if (Physics.Raycast (ray, out hit)) {
 			line.SetPosition (1, hit.point);
+			GameObject fire_effect_instance_hit = Instantiate(fire_effect,hit.point,Quaternion.identity);
+			Destroy (fire_effect_instance_hit, 1.0f);
 		} else {
 			line.SetPosition (1, transform.position + transform.forward * 100f);
 		}
+		line.enabled = true;
 		Invoke ("disableLine", 0.05f);			
+		Destroy (fire_effect_instance, 1.0f);
 	}
 
 	void disableLine(){
