@@ -6,9 +6,11 @@ public class GunManager : MonoBehaviour {
 
 	[SerializeField] int bullet = 30;
 	[SerializeField] int bullet_box = 150;
+	[SerializeField] int bullet_max = 30;
 	[SerializeField] float cool_time = 0.2f;
 	[SerializeField] GameObject Character;
 	[SerializeField] AudioClip fire_sound;
+	[SerializeField] AudioClip reload_sound;
 	float down_length = 1.2f; 
 	float timer = 0.0f;
 	[SerializeField] GameObject fire_effect;
@@ -24,6 +26,10 @@ public class GunManager : MonoBehaviour {
 	void Update () {
 		if (Input.GetMouseButtonDown (0) && bullet > 0 && timer > cool_time) {
 			Fire ();
+		}
+
+		if (Input.GetKeyDown (KeyCode.R) && bullet < bullet_max && bullet_box > 0) {
+			Reload ();
 		}
 
 		timer += Time.deltaTime;
@@ -59,5 +65,18 @@ public class GunManager : MonoBehaviour {
 
 	void disableLine(){
 		line.enabled = false;
+	}
+
+	void Reload(){
+		int shortage = bullet_max - bullet;
+
+		if (shortage <= bullet_box) {
+			bullet_box -= shortage;
+			bullet += shortage;
+		} else {
+			bullet += bullet_box;
+			bullet_box = 0;
+		}
+		audioSource.PlayOneShot (reload_sound);
 	}
 }
