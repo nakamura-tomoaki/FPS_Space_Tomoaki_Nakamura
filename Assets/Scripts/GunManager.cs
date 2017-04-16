@@ -9,8 +9,13 @@ public class GunManager : MonoBehaviour {
 	[SerializeField] int bullet_max = 30;
 	[SerializeField] float cool_time = 0.2f;
 	[SerializeField] GameObject Character;
+	[SerializeField] Transform HeadMarker;
+	[SerializeField] Transform HeadMarkerEdge;
+	// HeadMarkerEdge is null object and on the edge of the most outside circle.
+	[SerializeField] GameManager gameManager;
 	[SerializeField] AudioClip fire_sound;
 	[SerializeField] AudioClip reload_sound;
+	float HeadMarkerRadius;
 	float down_length = 1.2f; 
 	float timer = 0.0f;
 	[SerializeField] GameObject fire_effect;
@@ -20,6 +25,7 @@ public class GunManager : MonoBehaviour {
 	void Start () {
 		audioSource = GetComponent<AudioSource> ();
 		line = GetComponent<LineRenderer> ();
+		HeadMarkerRadius = (HeadMarker.position - HeadMarkerEdge.position).magnitude;
 	}
 	
 	
@@ -27,13 +33,10 @@ public class GunManager : MonoBehaviour {
 		if (Input.GetMouseButtonDown (0) && bullet > 0 && timer > cool_time) {
 			Fire ();
 		}
-
 		if (Input.GetKeyDown (KeyCode.R) && bullet < bullet_max && bullet_box > 0) {
 			Reload ();
 		}
-
 		timer += Time.deltaTime;
-
 	}
 
 	void Fire(){
@@ -55,6 +58,12 @@ public class GunManager : MonoBehaviour {
 			line.SetPosition (1, hit.point);
 			GameObject fire_effect_instance_hit = Instantiate(fire_effect,hit.point - transform.forward * 0.2f,Quaternion.identity);
 			Destroy (fire_effect_instance_hit, 1.0f);
+
+			if (hit.collider.tag == "Target" && !hit.transform.parent.GetComponent<Animator>().GetBool("IsDowned")) {
+				print ("Target!!");
+				hit.transform.parent.GetComponent<TargetController> ().ApplyDamage ();
+				gameManager.AddScore (CalculateScore(hit.point));
+			}
 		} else {
 			line.SetPosition (1, transform.position + transform.forward * 100f);
 		}
@@ -78,5 +87,18 @@ public class GunManager : MonoBehaviour {
 			bullet_box = 0;
 		}
 		audioSource.PlayOneShot (reload_sound);
+	}
+
+	float CalculateScore(Vector3 pos){
+		//if hit position == the center of the circle, return 100 points.
+		//else if hit position == outside of the circlu, return 0 point.
+		float hitDistance = (pos - HeadMarker.position).magnitude;
+		if (hitDistance > HeadMarkerRadius) {
+			print (0f);
+			return 0f;
+		} else {
+			print ((HeadMarkerRadius - hitDistance) / HeadMarkerRadius * 100f);
+			return (HeadMarkerRadius - hitDistance) / HeadMarkerRadius * 100f;
+		}
 	}
 }
