@@ -8374,7 +8374,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Timer:'
+  m_Text: 'Time:'
 --- !u!222 &551463747
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -25042,7 +25042,7 @@ Transform:
   m_PrefabParentObject: {fileID: 400192, guid: 70bd327581f110b4a936db6df5f9ed54, type: 3}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1622421762}
-  m_LocalRotation: {x: 0.6122277, y: -0.36693397, z: -0.5988898, w: -0.36313614}
+  m_LocalRotation: {x: 0.6122276, y: -0.36693394, z: -0.59888977, w: -0.3631361}
   m_LocalPosition: {x: -6.393426, y: 1.3832966, z: 2.7329824}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
@@ -31517,6 +31517,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1941924716}
   - component: {fileID: 1941924715}
+  - component: {fileID: 1941924717}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -31548,6 +31549,23 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 14
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1941924717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1941924714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f1781aa1c58176d4d96b995b58bc79a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timerText: {fileID: 551463746}
+  ScoreText: {fileID: 934873521}
+  BulletBoxText: {fileID: 1768773494}
+  BulletText: {fileID: 1357229003}
+  gameManager: {fileID: 1941924715}
+  gunManager: {fileID: 2104286600}
 --- !u!1 &1941968816 stripped
 GameObject:
   m_PrefabParentObject: {fileID: 100004, guid: 6e4b42461da5a4123b8101091224d9ab, type: 3}

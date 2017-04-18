@@ -101,4 +101,12 @@ public class GunManager : MonoBehaviour {
 			return (HeadMarkerRadius - hitDistance) / HeadMarkerRadius * 100f;
 		}
 	}
+
+	public int GetBullet(){
+		return bullet;
+	}
+
+	public int GetBulletBox(){
+		return bullet_box;
+	}
 }
