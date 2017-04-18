@@ -33993,7 +33993,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b788412d088bb6049bbc793aa283b6d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bullet: 10
+  bullet: 30
   bullet_box: 150
   bullet_max: 30
   cool_time: 0.2
