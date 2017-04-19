@@ -4,17 +4,16 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 	float score = 0.0f;
-	float timer = 0.0f;
-	int screenWidth;
-	int screenHeight;
+	[SerializeField] float timer = 90.0f;
 
 	void Start () {
-		screenWidth = Screen.width;
-		screenHeight = Screen.height;
 	}	
 	
 	void Update () {
-		timer += Time.deltaTime;	
+		timer -= Time.deltaTime;
+		if (timer <= 0f) {
+			timer = 0f;
+		}
 	}
 
 	public void AddScore(float point){
