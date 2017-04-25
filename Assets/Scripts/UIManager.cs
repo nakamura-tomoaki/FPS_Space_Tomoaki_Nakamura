@@ -10,7 +10,7 @@ public class UIManager : MonoBehaviour {
 	[SerializeField] Text BulletText;
 	[SerializeField] GameManager gameManager;
 	[SerializeField] GunManager gunManager;
-
+	[SerializeField] ScoreManager scoreManager;
 	void Start () {
 		gameManager = GetComponent<GameManager> ();
 	}
@@ -18,7 +18,7 @@ public class UIManager : MonoBehaviour {
 	
 	void Update () {
 		timerText.text = "Time: " +(gameManager.GetTime ()).ToString("N1");
-		ScoreText.text = "Pt: " + gameManager.GetScore ().ToString ("N0");
+		ScoreText.text = "Pt: " + scoreManager.GetScore ().ToString ("N0");
 		BulletBoxText.text = "BulletBox: " + gunManager.GetBulletBox().ToString ();
 		BulletText.text = "Bullet: " + gunManager.GetBullet().ToString ();
 	}

@@ -8703,22 +8703,6 @@ MeshFilter:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 582979835}
   m_Mesh: {fileID: 4300166, guid: 70bd327581f110b4a936db6df5f9ed54, type: 3}
---- !u!1 &583747636 stripped
-GameObject:
-  m_PrefabParentObject: {fileID: 100000, guid: 5e9e851c0e142814dac026a256ba2ac0, type: 2}
-  m_PrefabInternal: {fileID: 988084189}
---- !u!114 &583747642
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 583747636}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cf0d1a1ce79fc884cac1d1e9be1b4c44, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  crunching_walk_speed: 2
 --- !u!4 &586197457 stripped
 Transform:
   m_PrefabParentObject: {fileID: 427784, guid: 9fa6e033b554935448ce3a979f94d1b5, type: 2}
@@ -31407,6 +31391,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a0af173badeb154b905e04624bb81fe, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timer: 90
 --- !u!4 &1941924716
 Transform:
   m_ObjectHideFlags: 0
