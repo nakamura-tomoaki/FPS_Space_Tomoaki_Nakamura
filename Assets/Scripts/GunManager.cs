@@ -9,13 +9,14 @@ public class GunManager : MonoBehaviour {
 	[SerializeField] int bullet_max = 30;
 	[SerializeField] float cool_time = 0.2f;
 	[SerializeField] GameObject Character;
-	[SerializeField] Transform HeadMarker;
-	[SerializeField] Transform HeadMarkerEdge;
+	//[SerializeField] Transform HeadMarker;
+	//[SerializeField] Transform HeadMarkerEdge;
 	// HeadMarkerEdge is null object and on the edge of the most outside circle.
 	[SerializeField] GameManager gameManager;
 	[SerializeField] AudioClip fire_sound;
 	[SerializeField] AudioClip reload_sound;
-	float HeadMarkerRadius;
+	[SerializeField] ScoreManager scoreManager;
+	//float HeadMarkerRadius;
 	float down_length = 1.2f; 
 	float timer = 0.0f;
 	[SerializeField] GameObject fire_effect;
@@ -25,7 +26,7 @@ public class GunManager : MonoBehaviour {
 	void Start () {
 		audioSource = GetComponent<AudioSource> ();
 		line = GetComponent<LineRenderer> ();
-		HeadMarkerRadius = (HeadMarker.position - HeadMarkerEdge.position).magnitude;
+		//HeadMarkerRadius = (HeadMarker.position - HeadMarkerEdge.position).magnitude;
 	}
 	
 	
@@ -52,20 +53,28 @@ public class GunManager : MonoBehaviour {
 			fire_point = transform.position;
 		}
 		line.SetPosition (0,fire_point);
-		Ray ray = new Ray (fire_point, transform.forward);
+		int screenWidth = Screen.width;
+		int screenHeight = Screen.height;
+		Vector3 hit_point;
+		Ray ray_from_camera = Camera.main.ScreenPointToRay (new Vector3 (screenWidth / 2.0f, screenHeight / 2.0f, 0f));
+		RaycastHit hit_from_camera;
+		if (Physics.Raycast (ray_from_camera, out hit_from_camera)) {
+			hit_point = hit_from_camera.point;
+		} else {
+			hit_point = Camera.main.transform.position + ray_from_camera.direction * 100f;
+		}
+		Ray ray = new Ray (fire_point,hit_point-fire_point);
 		RaycastHit hit;
 		if (Physics.Raycast (ray, out hit)) {
 			line.SetPosition (1, hit.point);
 			GameObject fire_effect_instance_hit = Instantiate(fire_effect,hit.point - transform.forward * 0.2f,Quaternion.identity);
 			Destroy (fire_effect_instance_hit, 1.0f);
-
 			if (hit.collider.tag == "Target" && !hit.transform.parent.GetComponent<Animator>().GetBool("IsDowned")) {
-				print ("Target!!");
 				hit.transform.parent.GetComponent<TargetController> ().ApplyDamage ();
-				gameManager.AddScore (CalculateScore(hit.point));
+				scoreManager.AddScore (scoreManager.CalculateScore(hit.point,hit.collider.gameObject));
 			}
 		} else {
-			line.SetPosition (1, transform.position + transform.forward * 100f);
+			line.SetPosition (1, hit_point);
 		}
 		line.enabled = true;
 		Invoke ("disableLine", 0.05f);			
@@ -78,7 +87,6 @@ public class GunManager : MonoBehaviour {
 
 	void Reload(){
 		int shortage = bullet_max - bullet;
-
 		if (shortage <= bullet_box) {
 			bullet_box -= shortage;
 			bullet += shortage;
@@ -89,16 +97,13 @@ public class GunManager : MonoBehaviour {
 		audioSource.PlayOneShot (reload_sound);
 	}
 
-	float CalculateScore(Vector3 pos){
-		//if hit position == the center of the circle, return 100 points.
-		//else if hit position == outside of the circlu, return 0 point.
-		float hitDistance = (pos - HeadMarker.position).magnitude;
-		if (hitDistance > HeadMarkerRadius) {
-			print (0f);
-			return 0f;
-		} else {
-			print ((HeadMarkerRadius - hitDistance) / HeadMarkerRadius * 100f);
-			return (HeadMarkerRadius - hitDistance) / HeadMarkerRadius * 100f;
-		}
+
+
+	public int GetBullet(){
+		return bullet;
+	}
+
+	public int GetBulletBox(){
+		return bullet_box;
 	}
 }
