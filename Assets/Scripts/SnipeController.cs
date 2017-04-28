@@ -1,19 +1,28 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class SnipeController : MonoBehaviour {
 
-	[SerializeField] Animator camera_anim;
-	[SerializeField] Animator snipe_sprite_anim;
-	string IsSniping = "IsSniping";
+	[SerializeField] Image snipe ;
+	[SerializeField] Color color_snipe;
+	[SerializeField] Color color_default;
 	void Start () {
 		
 	}
 	
 	
 	void Update () {
-		camera_anim.SetBool (IsSniping, Input.GetMouseButton(1));
-		snipe_sprite_anim.SetBool (IsSniping, Input.GetMouseButton(1));
+		if (Input.GetMouseButtonDown (1)) {
+			print (1);
+			Camera.main.fieldOfView = 11.5f;
+			snipe.color = color_snipe;
+		} 
+		if (Input.GetMouseButtonUp (1)) {
+			print (2);
+			Camera.main.fieldOfView = 60f;
+			snipe.color = color_default;
+		}
 	}
 }
